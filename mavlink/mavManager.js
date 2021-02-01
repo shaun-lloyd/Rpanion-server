@@ -295,6 +295,43 @@ class mavManager {
       return 0
     }
   }
+    /* MAV STATE
+
+	MAV_MODE_PREFLIGHT = 0 			System is not ready to fly, booting, calibrating, etc. No flag is set.
+	MAV_MODE_MANUAL_DISARMED = 64 	System is allowed to be active, under manual (RC) control, no stabilization
+	MAV_MODE_STABILIZE_DISARMED = 80	System is allowed to be active, under assisted RC control.
+	MAV_MODE_GUIDED_DISARMED = 88		System is allowed to be active, under autonomous control, manual setpoint
+	MAV_MODE_AUTO_DISARMED = 92		System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by waypoints)
+	MAV_MODE_MANUAL_ARMED = 192		System is allowed to be active, under manual (RC) control, no stabilization
+	MAV_MODE_STABILIZE_ARMED = 208	System is allowed to be active, under assisted RC control.
+	MAV_MODE_GUIDED_ARMED = 216		System is allowed to be active, under autonomous control, manual setpoint
+	MAV_MODE_AUTO_ARMED = 220 		System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by waypoints)   
+
+	MAV_STATE_EMERGENCY = 6				System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down.
+	MAV_STATE_POWEROFF = 7 				System just initialized its power-down sequence, will shut down now.
+	MAV_STATE_FLIGHT_TERMINATION = 8 	System is terminating itself.
+
+	*/
+
+	getMavMode() {
+
+	}
+
+    setMavMode(mode) {
+	//	This code is what i did from your setmode py example.
+        var msg = new this.mavmsg.messages.command_long_send(this.targetSystem, this.targetComponent, mavlink.MAV_CMD_DO_SET_MODE, 0, mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
+            mode, 0, 0, 0, 0, 0)
+
+	//	I could use the js set_mode could i ?
+		var msg = this.mavmsg.set_mode(this.targetSystem, mode, 0)
+        
+		this.sendData(msg.pack(this.mav)) 
+    }
+
+    setManualControl(x,y,z,r,btns) {
+        var msg = new this.mavmsg.messages.manual_control(this.targetSystem, x, y, z, r, btns)
+        this.sendData(msg.pack(this.mav)) 
+    }
 }
 
 module.exports = mavManager

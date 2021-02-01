@@ -9,6 +9,7 @@ import Video from './video.js';
 import FCConfig from './flightcontroller.js';
 import LogBrowser from './logBrowser.js'
 import NetworkClients from './networkClients.js'
+import Gamepad from './gamepad.js'
 
 function AppRouter() {
   return (
@@ -23,6 +24,7 @@ function AppRouter() {
                     <Link className='list-group-item list-group-item-action bg-light' to="/apclients">Access Point Clients</Link>
                     <Link className='list-group-item list-group-item-action bg-light' to="/video">Video Streaming</Link>
                     <Link className='list-group-item list-group-item-action bg-light' to="/about">About</Link>
+                    <Link className='list-group-item list-group-item-action bg-light' to="/gamepad">Gamepad</Link>
                 </div>
             </div>
 
@@ -36,6 +38,7 @@ function AppRouter() {
                 <Route exact path="/video" component={Video} />
                 <Route exact path="/flightlogs" component={LogBrowser} />
                 <Route exact path="/apclients" component={NetworkClients} />
+                <Route exact path="/gamepad" component={Gamepad} />
                 <Route component={NoMatch} />
             </Switch>
           </div>
